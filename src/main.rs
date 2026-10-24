@@ -1,3 +1,11 @@
+fn print_message(message: &String) {
+    println!("{}", message);
+}
+
 fn main() {
-    println!("Hello, world!");
+    let message = String::from("Hello, Rust!");
+
+    print_message(&message);
+
+    println!("{}", message);
 }
