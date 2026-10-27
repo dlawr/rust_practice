@@ -41,8 +41,18 @@ mod tests {
     }
 
     #[test]
+    fn matches_end() {
+        assert_eq!(first_match("rust is fun", &["fun"]), Some("fun"));
+    }
+
+    #[test]
     fn matches_case_insensitive() {
         assert_eq!(first_match("Rust is fun", &["java", "rust"]), Some("rust"));
+    }
+
+    #[test]
+    fn matches_mixed_capitalization() {
+        assert_eq!(first_match("Rust is fun", &["java", "ruST"]), Some("ruST"));
     }
 
     #[test]
@@ -66,6 +76,11 @@ mod tests {
     #[test]
     fn returns_none_for_empty_candidates() {
         assert_eq!(first_match("anything", &[]), None);
+    }
+
+    #[test]
+    fn returns_none_for_too_long() {
+        assert_eq!(first_match("short", &["extralongstring"]), None);
     }
 
     #[test]
