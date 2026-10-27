@@ -1,12 +1,29 @@
 fn main() {
     first_match("rust is fun", &["java", "rust", "fun"]);
+    // let s = "test string";
+    // for (i, c) in s.char_indices() {
+    //     let end_index = i + 2;
+    //     let segment = s.get(i..end_index);
+    //     println!("Byte {} is '{}'", i, c);
+    //     println!("{:?}", segment);
+    //     println!("{}", s.len());
+    // }
 }
 
 fn first_match<'a>(text: &str, candidates: &[&'a str]) -> Option<&'a str> {
     for candidate in candidates {
-        if text.to_lowercase().contains(&candidate.to_lowercase()) {
-            return Some(candidate);
+        println!("{}", candidate);
+        for (i, _c) in text.char_indices() {
+            if let Some(window) = text.get(i..i + candidate.len()) {
+                println!("{} {} {:?}", i, candidate, text.get(i..i + candidate.len()));
+                if window.eq_ignore_ascii_case(candidate) {
+                    return Some(candidate);
+                }
+            }
         }
+        // if text.to_lowercase().contains(&candidate.to_lowercase()) {
+        //     return Some(candidate);
+        // }
     }
     None
 }
@@ -30,7 +47,7 @@ mod tests {
 
     #[test]
     fn matches_case_insensitive_other_direction() {
-        assert_eq!(first_match("rust is fun", &["java", "Rust"]), Some("rust"));
+        assert_eq!(first_match("rust is fun", &["java", "Rust"]), Some("Rust"));
     }
 
     #[test]
