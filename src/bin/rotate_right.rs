@@ -55,4 +55,10 @@ mod tests {
         rotate_right(&mut nums, 7);
         assert_eq!(nums, vec![3, 1, 2]);
     }
+    #[test]
+    fn six_elements_rotated_by_two() {
+        let mut nums = vec![1, 2, 3, 4, 5, 6];
+        rotate_right(&mut nums, 2);
+        assert_eq!(nums, vec![5, 6, 1, 2, 3, 4]);
+    }
 }
