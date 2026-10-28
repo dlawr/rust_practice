@@ -1,27 +1,59 @@
 fn main() {
     let mut nums = vec![1, 1, 2, 2, 3];
-    dedup_adjacent(&mut nums);
+    println!("{:?}", dedup_adjacent(&mut nums));
 }
 
-fn dedup_adjacent(nums: &mut Vec<i32>) {
+fn dedup_adjacent(nums: &mut Vec<i32>) -> &[i32] {
     // for (i, num) in nums.iter_mut().enumerate() {
-    let mut i = 0;
-    while i < nums.len() {
-        let mut last_num = false;
-        while !last_num {
-            if i + 1 < nums.len() {
-                println!("{} {:?} {}", nums[i], nums, nums[i + 1]);
-                if nums[i] == nums[i + 1] {
-                    nums.remove(i + 1);
-                } else {
-                    last_num = true;
-                }
-            } else {
-                last_num = true;
-            }
+
+    let mut write_idx = 0;
+    let mut read_idx = 1;
+    while read_idx < nums.len() {
+        println!(
+            "{} {} {:?} {} {} {}",
+            write_idx,
+            read_idx,
+            nums,
+            !(nums[write_idx] == nums[read_idx]),
+            nums[write_idx],
+            nums[read_idx]
+        );
+        if !(nums[write_idx] == nums[read_idx]) {
+            write_idx += 1;
+            nums[write_idx] = nums[read_idx];
         }
-        i += 1;
+        read_idx += 1;
     }
+
+    println!(
+        "{} {} {:?} {:?} {}",
+        write_idx,
+        read_idx,
+        nums,
+        &nums[0..write_idx + 1],
+        &nums[0..write_idx + 1] == vec![1, 2, 3]
+    );
+
+    &nums[0..write_idx + 1]
+
+    // let mut i = 0;
+    // while i < nums.len() {
+    //     let mut last_num = false;
+    //     while !last_num {
+    //         if i + 1 < nums.len() {
+    //             println!("{} {:?} {}", nums[i], nums, nums[i + 1]);
+    //             if nums[i] == nums[i + 1] {
+    //                 nums.remove(i + 1);
+    //             } else {
+    //                 last_num = true;
+    //             }
+    //         } else {
+    //             last_num = true;
+    //         }
+    //     }
+    //
+    //     i += 1;
+    // }
 }
 
 #[cfg(test)]
