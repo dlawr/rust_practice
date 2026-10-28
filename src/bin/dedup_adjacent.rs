@@ -5,6 +5,9 @@ fn main() {
 
 fn dedup_adjacent(nums: &mut Vec<i32>) -> &[i32] {
     // for (i, num) in nums.iter_mut().enumerate() {
+    if nums.is_empty() {
+        return &nums[..];
+    }
 
     let mut write_idx = 0;
     let mut read_idx = 1;
@@ -34,7 +37,8 @@ fn dedup_adjacent(nums: &mut Vec<i32>) -> &[i32] {
         &nums[0..write_idx + 1] == vec![1, 2, 3]
     );
 
-    &nums[0..write_idx + 1]
+    nums.truncate(write_idx + 1);
+    nums
 
     // let mut i = 0;
     // while i < nums.len() {
