@@ -1,8 +1,8 @@
 fn main() {
-    // let mut nums = vec![1, 2, 3, 4, 5];
-    // rotate_right(&mut nums, 2);
-    // println!("{:?}", nums);
-    println!("{}", euclid(10, 225))
+    let mut nums = vec![1, 2, 3, 4, 5, 6];
+    rotate_right(&mut nums, 2);
+    println!("{:?}", nums);
+    // println!("{}", euclid(10, 225));
 }
 
 fn rotate_right(nums: &mut [i32], k: usize) {
@@ -10,15 +10,35 @@ fn rotate_right(nums: &mut [i32], k: usize) {
         return;
     }
 
+    let lcd = euclid(nums.len(), k);
+    println!("{}", lcd);
     let mut idx = 0;
     let mut current = nums[0];
     let mut swap;
-    for _i in 0..nums.len() {
-        idx = (idx + k) % nums.len();
-        swap = nums[idx];
-        nums[idx] = current;
-        current = swap;
-        println!("{:?} {} {:?}", nums, idx, swap);
+
+    if lcd == 1 {
+        for _i in 0..nums.len() {
+            idx = (idx + k) % nums.len();
+            swap = nums[idx];
+            nums[idx] = current;
+            current = swap;
+            println!("{:?} {} {:?}", nums, idx, swap);
+        }
+    } else {
+        let cycle = k % nums.len();
+        for i in 0..k {
+            println!("{}", i);
+            let mut idx = i;
+            let mut current = nums[i];
+            let mut swap;
+            for _j in 0..cycle + 1 {
+                idx = (idx + k) % nums.len();
+                swap = nums[idx];
+                nums[idx] = current;
+                current = swap;
+                println!("{:?} {} {:?}", nums, idx, swap);
+            }
+        }
     }
 }
 
