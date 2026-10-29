@@ -1,7 +1,8 @@
 fn main() {
-    let mut nums = vec![1, 2, 3, 4, 5];
-    rotate_right(&mut nums, 2);
-    println!("{:?}", nums);
+    // let mut nums = vec![1, 2, 3, 4, 5];
+    // rotate_right(&mut nums, 2);
+    // println!("{:?}", nums);
+    println!("{}", euclid(10, 225))
 }
 
 fn rotate_right(nums: &mut [i32], k: usize) {
@@ -19,6 +20,27 @@ fn rotate_right(nums: &mut [i32], k: usize) {
         current = swap;
         println!("{:?} {} {:?}", nums, idx, swap);
     }
+}
+
+fn euclid(a: usize, b: usize) -> usize {
+    let mut top;
+    let mut bottom;
+
+    if a > b {
+        top = a;
+        bottom = b;
+    } else {
+        top = b;
+        bottom = a;
+    };
+
+    let mut remainder = top % bottom;
+    while remainder > 0 {
+        top = bottom;
+        bottom = remainder;
+        remainder = top % bottom;
+    }
+    bottom
 }
 
 #[cfg(test)]
