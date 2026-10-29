@@ -10,29 +10,29 @@ fn rotate_right(nums: &mut [i32], k: usize) {
         return;
     }
 
-    let lcd = euclid(nums.len(), k);
-    println!("{}", lcd);
+    let gcd = euclid(nums.len(), k);
+    println!("{}", gcd);
     let mut idx = 0;
     let mut current = nums[0];
     let mut swap;
+    let cycle = k % nums.len();
 
-    if lcd == 1 {
+    if gcd == 1 {
         for _i in 0..nums.len() {
-            idx = (idx + k) % nums.len();
+            idx = (idx + cycle) % nums.len();
             swap = nums[idx];
             nums[idx] = current;
             current = swap;
             println!("{:?} {} {:?}", nums, idx, swap);
         }
     } else {
-        let cycle = k % nums.len();
-        for i in 0..k {
+        for i in 0..cycle {
             println!("{}", i);
             let mut idx = i;
             let mut current = nums[i];
             let mut swap;
-            for _j in 0..cycle + 1 {
-                idx = (idx + k) % nums.len();
+            for _j in 0..nums.len() / gcd {
+                idx = (idx + cycle) % nums.len();
                 swap = nums[idx];
                 nums[idx] = current;
                 current = swap;
@@ -43,6 +43,9 @@ fn rotate_right(nums: &mut [i32], k: usize) {
 }
 
 fn euclid(a: usize, b: usize) -> usize {
+    if a == 0 || b == 0 {
+        return 1;
+    }
     let mut top;
     let mut bottom;
 
@@ -101,6 +104,12 @@ mod tests {
     fn six_elements_rotated_by_two() {
         let mut nums = vec![1, 2, 3, 4, 5, 6];
         rotate_right(&mut nums, 2);
+        assert_eq!(nums, vec![5, 6, 1, 2, 3, 4]);
+    }
+    #[test]
+    fn twelve_elements_rotated_by_eight() {
+        let mut nums = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        rotate_right(&mut nums, 8);
         assert_eq!(nums, vec![5, 6, 1, 2, 3, 4]);
     }
 }
