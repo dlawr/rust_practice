@@ -7,15 +7,17 @@ fn group_by<F>(nums: &[i32], predicate: F) -> (Vec<i32>, Vec<i32>)
 where
     F: Fn(i32) -> bool,
 {
-    let mut v1: Vec<i32> = Vec::new();
-    let mut v2: Vec<i32> = Vec::new();
-    for i in 0..nums.len() {
-        if predicate(nums[i]) {
-            v1.push(nums[i]);
-        } else {
-            v2.push(nums[i]);
-        }
-    }
+    // let mut v1: Vec<i32> = Vec::new();
+    // let mut v2: Vec<i32> = Vec::new();
+    // for i in 0..nums.len() {
+    //     if predicate(nums[i]) {
+    //         v1.push(nums[i]);
+    //     } else {
+    //         v2.push(nums[i]);
+    //     }
+    // }
+    let v1: Vec<i32> = nums.iter().copied().filter(|n| predicate(*n)).collect();
+    let v2: Vec<i32> = nums.iter().copied().filter(|n| !predicate(*n)).collect();
     return (v1, v2);
 }
 
