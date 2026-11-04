@@ -26,7 +26,17 @@ fn parse_task(input: &str) -> Result<Task, String> {
     }
 }
 
-// fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<String>) {}
+fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<String>) {
+    let mut parsed = Vec::new();
+    let mut errors = Vec::new();
+    for task in tasks {
+        match parse_task(task) {
+            Ok(parsed_task) => parsed.push(parsed_task),
+            Err(error) => errors.push(error),
+        }
+    }
+    (parsed, errors)
+}
 
 fn main() {
     let tasks = vec![
@@ -37,6 +47,8 @@ fn main() {
         "4:Review http://example.com",
         "5:Meeting at 10:30",
     ];
+
+    println!("{:?}", parse_tasks(&tasks));
 
     println!("{:?}", parse_task(tasks[0]))
 }
