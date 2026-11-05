@@ -38,6 +38,10 @@ fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<String>) {
     (parsed, errors)
 }
 
+fn find_task(tasks: &[Task], id: u32) -> Option<&Task> {
+    tasks.iter().find(|task| task.id == id)
+}
+
 fn main() {
     let tasks = vec![
         "1:Buy groceries",
@@ -47,10 +51,11 @@ fn main() {
         "4:Review http://example.com",
         "5:Meeting at 10:30",
     ];
+    let parsed = parse_tasks(&tasks);
 
     println!("{:?}", parse_tasks(&tasks));
-
-    println!("{:?}", parse_task(tasks[0]))
+    println!("{:?}", parse_task(tasks[0]));
+    println!("{:?}", find_task(&parsed.0, 4));
 }
 
 #[cfg(test)]
