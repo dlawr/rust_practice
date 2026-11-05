@@ -1,7 +1,15 @@
 #[derive(Debug, PartialEq)]
+enum Status {
+    Pending,
+    InProgress,
+    Complete,
+}
+
+#[derive(Debug, PartialEq)]
 struct Task {
     id: u32,
     description: String,
+    status: Status,
 }
 
 fn parse_task(input: &str) -> Result<Task, String> {
@@ -18,6 +26,7 @@ fn parse_task(input: &str) -> Result<Task, String> {
         Ok(Task {
             id: parsed_id,
             description: desc.to_string(),
+            status: Status::Pending,
         })
     } else {
         Err("Error: missing data".to_string())
@@ -40,10 +49,17 @@ fn find_task(tasks: &[Task], id: u32) -> Option<&Task> {
     tasks.iter().find(|task| task.id == id)
 }
 
+fn complete_task(task: &mut Task) {
+    task.status = Status::Complete
+}
+
 fn print_report(tasks: &[Task], errors: &[String]) {
     println!("{} valid tasks", tasks.len());
     for task in tasks {
-        println!("id: {} description: {}", task.id, task.description);
+        println!(
+            "id: {} description: {} status {:?}",
+            task.id, task.description, task.status
+        );
     }
     println!("{} errors", errors.len());
     for error in errors {
@@ -60,11 +76,13 @@ fn main() {
         "4:Review http://example.com",
         "5:Meeting at 10:30",
     ];
-    let parsed = parse_tasks(&tasks);
+    let task = parse_task(tasks[0]);
+    let mut parsed = parse_tasks(&tasks);
 
     println!("{:?}", parse_tasks(&tasks));
-    println!("{:?}", parse_task(tasks[0]));
+    println!("{:?}", task);
     println!("{:?}", find_task(&parsed.0, 4));
+    complete_task(&mut parsed.0[0]);
     print_report(&parsed.0, &parsed.1);
 }
 
@@ -81,6 +99,7 @@ mod tests {
             Ok(Task {
                 id: 1,
                 description: "Buy groceries".to_string(),
+                status: Status::Pending,
             })
         );
     }
@@ -94,6 +113,7 @@ mod tests {
             Ok(Task {
                 id: 2,
                 description: "Meeting at 10:30".to_string(),
+                status: Status::Pending,
             })
         );
     }
