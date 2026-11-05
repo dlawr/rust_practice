@@ -1,5 +1,7 @@
 // use std::os::unix::process::parent_id;
 
+use std::error;
+
 #[derive(Debug, PartialEq)]
 struct Task {
     id: u32,
@@ -42,6 +44,17 @@ fn find_task(tasks: &[Task], id: u32) -> Option<&Task> {
     tasks.iter().find(|task| task.id == id)
 }
 
+fn print_report(tasks: &[Task], errors: &[String]) {
+    println!("{} valid tasks", tasks.len());
+    for task in tasks {
+        println!("id: {} description: {}", task.id, task.description);
+    }
+    println!("{} errors", errors.len());
+    for error in errors {
+        println!("{}", error);
+    }
+}
+
 fn main() {
     let tasks = vec![
         "1:Buy groceries",
@@ -56,6 +69,7 @@ fn main() {
     println!("{:?}", parse_tasks(&tasks));
     println!("{:?}", parse_task(tasks[0]));
     println!("{:?}", find_task(&parsed.0, 4));
+    print_report(&parsed.0, &parsed.1);
 }
 
 #[cfg(test)]
