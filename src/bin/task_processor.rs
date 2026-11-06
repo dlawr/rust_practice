@@ -53,6 +53,15 @@ fn complete_task(task: &mut Task) {
     task.status = Status::Complete
 }
 
+fn is_complete(task: &Task) -> bool {
+    // match &task.status {
+    //     Status::Complete => true,
+    //     Status::InProgress => false,
+    //     Status::Pending => false,
+    // }
+    matches!(task.status, Status::Complete)
+}
+
 fn print_report(tasks: &[Task], errors: &[String]) {
     println!("{} valid tasks", tasks.len());
     for task in tasks {
@@ -81,6 +90,7 @@ fn main() {
 
     println!("{:?}", parse_tasks(&tasks));
     println!("{:?}", task);
+    println!("{:?}", is_complete(&parsed.0[0]));
     println!("{:?}", find_task(&parsed.0, 4));
     complete_task(&mut parsed.0[0]);
     print_report(&parsed.0, &parsed.1);
