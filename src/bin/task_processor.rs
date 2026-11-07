@@ -12,6 +12,19 @@ struct Task {
     status: Status,
 }
 
+trait Summary {
+    fn summary(&self) -> String;
+}
+
+impl Summary for Task {
+    fn summary(&self) -> String {
+        format!(
+            "Task #{}: {} [{:?}]",
+            self.id, self.description, self.status
+        )
+    }
+}
+
 fn parse_task(input: &str) -> Result<Task, String> {
     if let Some((str_id, desc)) = input.split_once(":") {
         if desc.len() == 0 {
@@ -106,6 +119,7 @@ fn main() {
     complete_task(&mut parsed.0[0]);
     start_task(&mut parsed.0[1]);
     println!("{:?}", filter_by_status(&parsed.0, &Status::Pending));
+    println!("{}", parsed.0[0].summary());
     print_report(&parsed.0, &parsed.1);
 }
 
