@@ -62,6 +62,17 @@ fn is_complete(task: &Task) -> bool {
     matches!(task.status, Status::Complete)
 }
 
+fn start_task(task: &mut Task) {
+    match &task.status {
+        Status::Pending => task.status = Status::InProgress,
+        _ => {}
+    }
+}
+
+fn filter_by_status<'a>(tasks: &'a [Task], status: &Status) -> Vec<&'a Task> {
+    tasks.iter().filter(|task| task.status == *status).collect()
+}
+
 fn print_report(tasks: &[Task], errors: &[String]) {
     println!("{} valid tasks", tasks.len());
     for task in tasks {
@@ -93,6 +104,8 @@ fn main() {
     println!("{:?}", is_complete(&parsed.0[0]));
     println!("{:?}", find_task(&parsed.0, 4));
     complete_task(&mut parsed.0[0]);
+    start_task(&mut parsed.0[1]);
+    println!("{:?}", filter_by_status(&parsed.0, &Status::Pending));
     print_report(&parsed.0, &parsed.1);
 }
 
