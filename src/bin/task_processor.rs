@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(Debug, PartialEq)]
 enum Status {
     Pending,
@@ -18,10 +20,17 @@ trait Summary {
 
 impl Summary for Task {
     fn summary(&self) -> String {
-        format!(
-            "Task #{}: {} [{:?}]",
-            self.id, self.description, self.status
-        )
+        format!("Task #{}: {} [{}]", self.id, self.description, self.status)
+    }
+}
+
+impl fmt::Display for Status {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Status::Complete => write!(f, "Complete"),
+            Status::InProgress => write!(f, "In Progress"),
+            Status::Pending => write!(f, "Pending"),
+        }
     }
 }
 
