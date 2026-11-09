@@ -3,6 +3,7 @@ mod task_processor;
 
 use crate::task_processor::status::Status;
 use crate::task_processor::task::{Summary, Task};
+use crate::task_processor::task_list::TaskList;
 
 fn parse_task(input: &str) -> Result<Task, String> {
     if let Some((str_id, desc)) = input.split_once(":") {
@@ -100,6 +101,15 @@ fn main() {
     println!("{:?}", filter_by_status(&parsed.0, &Status::Pending));
     println!("{}", parsed.0[0].summary());
     print_report(&parsed.0, &parsed.1);
+
+    match task {
+        Ok(t) => {
+            let mut list = TaskList::<Task>::new();
+            list.add(t);
+            println!("{} {}", list.len(), list.is_empty())
+        }
+        Err(e) => println!("{}", e),
+    }
 }
 
 #[cfg(test)]
