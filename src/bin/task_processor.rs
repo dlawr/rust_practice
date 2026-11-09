@@ -1,38 +1,8 @@
-use std::fmt;
+#[path = "task_processor/mod.rs"]
+mod task_processor;
 
-#[derive(Debug, PartialEq)]
-enum Status {
-    Pending,
-    InProgress,
-    Complete,
-}
-
-#[derive(Debug, PartialEq)]
-struct Task {
-    id: u32,
-    description: String,
-    status: Status,
-}
-
-trait Summary {
-    fn summary(&self) -> String;
-}
-
-impl Summary for Task {
-    fn summary(&self) -> String {
-        format!("Task #{}: {} [{}]", self.id, self.description, self.status)
-    }
-}
-
-impl fmt::Display for Status {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Status::Complete => write!(f, "Complete"),
-            Status::InProgress => write!(f, "In Progress"),
-            Status::Pending => write!(f, "Pending"),
-        }
-    }
-}
+use crate::task_processor::status::Status;
+use crate::task_processor::task::{Summary, Task};
 
 fn parse_task(input: &str) -> Result<Task, String> {
     if let Some((str_id, desc)) = input.split_once(":") {
