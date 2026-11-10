@@ -3,7 +3,7 @@ mod task_processor;
 
 use crate::task_processor::status::Status;
 use crate::task_processor::task::{Summary, Task};
-use crate::task_processor::task_list::TaskList;
+use crate::task_processor::task_list::{TaskList, print_items};
 
 fn parse_task(input: &str) -> Result<Task, String> {
     if let Some((str_id, desc)) = input.split_once(":") {
@@ -111,11 +111,14 @@ fn main() {
         Err(e) => println!("{}", e),
     }
 
+    print_items(&parsed.0);
+
     let mut list = TaskList::<Task>::new();
     for task in parsed.0 {
         list.add(task);
     }
     list.print_summaries();
+    println!("{:?}", list.summaries());
 }
 
 #[cfg(test)]

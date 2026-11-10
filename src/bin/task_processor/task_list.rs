@@ -25,4 +25,13 @@ impl<T: Summary> TaskList<T> {
             println!("{}", task.summary());
         }
     }
+    pub(crate) fn summaries(&self) -> Vec<String> {
+        self.items.iter().map(|task| task.summary()).collect()
+    }
+}
+
+pub(crate) fn print_items<T: Summary>(items: &[T]) {
+    for item in items {
+        println!("{}", item.summary());
+    }
 }
