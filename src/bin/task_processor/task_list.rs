@@ -53,6 +53,22 @@ impl<T: Summary + Debug> TaskList<T> {
     }
 }
 
+impl<T: Summary + Clone> TaskList<T> {
+    pub(crate) fn find_cloned_by_summary(&self, query: &str) -> Vec<T> {
+        let mut found = Vec::new();
+        for item in &self.items {
+            if item
+                .summary()
+                .to_lowercase()
+                .contains(&query.to_lowercase())
+            {
+                found.push(item.clone());
+            }
+        }
+        return found;
+    }
+}
+
 pub(crate) fn print_items<T: Summary>(items: &[T]) {
     for item in items {
         println!("{}", item.summary());

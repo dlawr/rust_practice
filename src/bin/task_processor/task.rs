@@ -1,6 +1,6 @@
 use crate::task_processor::status::Status;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub(crate) struct Task {
     pub(crate) id: u32,
     pub(crate) description: String,
