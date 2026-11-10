@@ -1,3 +1,5 @@
+use crate::task_processor::task::Summary;
+
 pub(crate) struct TaskList<T> {
     items: Vec<T>,
 }
@@ -14,5 +16,13 @@ impl<T> TaskList<T> {
     }
     pub(crate) fn is_empty(&self) -> bool {
         self.len() == 0
+    }
+}
+
+impl<T: Summary> TaskList<T> {
+    pub(crate) fn print_summaries(&self) {
+        for task in self.items.iter() {
+            println!("{}", task.summary());
+        }
     }
 }

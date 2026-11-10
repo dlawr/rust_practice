@@ -110,6 +110,12 @@ fn main() {
         }
         Err(e) => println!("{}", e),
     }
+
+    let mut list = TaskList::<Task>::new();
+    for task in parsed.0 {
+        list.add(task);
+    }
+    list.print_summaries();
 }
 
 #[cfg(test)]
