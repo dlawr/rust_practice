@@ -118,6 +118,7 @@ fn main() {
         list.add(task);
     }
     list.print_summaries();
+    list.print_debug_summaries();
     println!("{:?}", list.summaries());
 }
 

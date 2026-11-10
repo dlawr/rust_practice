@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 use crate::task_processor::task::Summary;
 
 pub(crate) struct TaskList<T> {
@@ -27,6 +29,14 @@ impl<T: Summary> TaskList<T> {
     }
     pub(crate) fn summaries(&self) -> Vec<String> {
         self.items.iter().map(|task| task.summary()).collect()
+    }
+}
+
+impl<T: Summary + Debug> TaskList<T> {
+    pub(crate) fn print_debug_summaries(&self) {
+        for task in self.items.iter() {
+            println!("{} {:?}", task.summary(), task);
+        }
     }
 }
 
