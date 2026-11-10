@@ -30,6 +30,19 @@ impl<T: Summary> TaskList<T> {
     pub(crate) fn summaries(&self) -> Vec<String> {
         self.items.iter().map(|task| task.summary()).collect()
     }
+    pub(crate) fn find_by_summary(&self, query: &str) -> Vec<&T> {
+        let mut found = Vec::new();
+        for item in &self.items {
+            if item
+                .summary()
+                .to_lowercase()
+                .contains(&query.to_lowercase())
+            {
+                found.push(item);
+            }
+        }
+        return found;
+    }
 }
 
 impl<T: Summary + Debug> TaskList<T> {

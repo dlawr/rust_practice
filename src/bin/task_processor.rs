@@ -120,6 +120,7 @@ fn main() {
     list.print_summaries();
     list.print_debug_summaries();
     println!("{:?}", list.summaries());
+    println!("{:?}", list.find_by_summary("rust"))
 }
 
 #[cfg(test)]
