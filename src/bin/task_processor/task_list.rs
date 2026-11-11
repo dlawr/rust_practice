@@ -69,6 +69,15 @@ impl<T: Summary + Clone> TaskList<T> {
     }
 }
 
+impl<'a, T> IntoIterator for &'a TaskList<T> {
+    type Item = &'a T;
+    type IntoIter = std::slice::Iter<'a, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.items.iter()
+    }
+}
+
 pub(crate) fn print_items<T: Summary>(items: &[T]) {
     for item in items {
         println!("{}", item.summary());
