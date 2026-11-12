@@ -122,6 +122,12 @@ fn main() {
     println!("{:?}", list.summaries());
     println!("{:?}", list.find_by_summary("rust"));
     println!("{:?}", list.find_cloned_by_summary("rust"));
+    for task in &list {
+        println!("{}", task.description);
+    }
+    for task in list {
+        println!("{}", task.description);
+    }
 }
 
 #[cfg(test)]

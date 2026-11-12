@@ -78,6 +78,15 @@ impl<'a, T> IntoIterator for &'a TaskList<T> {
     }
 }
 
+impl<T> IntoIterator for TaskList<T> {
+    type Item = T;
+    type IntoIter = std::vec::IntoIter<T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.items.into_iter()
+    }
+}
+
 pub(crate) fn print_items<T: Summary>(items: &[T]) {
     for item in items {
         println!("{}", item.summary());
