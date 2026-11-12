@@ -87,6 +87,15 @@ impl<T> IntoIterator for TaskList<T> {
     }
 }
 
+impl<'a, T> IntoIterator for &'a mut TaskList<T> {
+    type Item = &'a mut T;
+    type IntoIter = std::slice::IterMut<'a, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.items.iter_mut()
+    }
+}
+
 pub(crate) fn print_items<T: Summary>(items: &[T]) {
     for item in items {
         println!("{}", item.summary());
