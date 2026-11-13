@@ -1,4 +1,5 @@
 use std::fmt::Debug;
+use std::ops::Deref;
 
 use crate::task_processor::task::Summary;
 
@@ -93,6 +94,14 @@ impl<'a, T> IntoIterator for &'a mut TaskList<T> {
 
     fn into_iter(self) -> Self::IntoIter {
         self.items.iter_mut()
+    }
+}
+
+impl<T> Deref for TaskList<T> {
+    type Target = [T];
+
+    fn deref(&self) -> &Self::Target {
+        &self.items
     }
 }
 
