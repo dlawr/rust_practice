@@ -1,5 +1,5 @@
 use std::fmt::Debug;
-use std::ops::Deref;
+use std::ops::{Deref, DerefMut};
 
 use crate::task_processor::task::Summary;
 
@@ -102,6 +102,12 @@ impl<T> Deref for TaskList<T> {
 
     fn deref(&self) -> &Self::Target {
         &self.items
+    }
+}
+
+impl<T> DerefMut for TaskList<T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.items
     }
 }
 
