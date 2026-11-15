@@ -97,6 +97,16 @@ impl<'a, T> IntoIterator for &'a mut TaskList<T> {
     }
 }
 
+impl<T> FromIterator<T> for TaskList<T> {
+    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
+        let mut new_list = TaskList::new();
+        for i in iter {
+            new_list.items.push(i);
+        }
+        new_list
+    }
+}
+
 impl<T> Deref for TaskList<T> {
     type Target = [T];
 
