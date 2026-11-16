@@ -107,6 +107,12 @@ impl<T> FromIterator<T> for TaskList<T> {
     }
 }
 
+impl<T> Extend<T> for TaskList<T> {
+    fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
+        self.items.extend(iter);
+    }
+}
+
 impl<T> Deref for TaskList<T> {
     type Target = [T];
 
