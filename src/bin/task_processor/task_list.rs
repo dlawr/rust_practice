@@ -113,6 +113,12 @@ impl<T> AsRef<[T]> for TaskList<T> {
     }
 }
 
+impl<T> AsMut<[T]> for TaskList<T> {
+    fn as_mut(&mut self) -> &mut [T] {
+        &mut self.items
+    }
+}
+
 impl<T> Extend<T> for TaskList<T> {
     fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
         self.items.extend(iter);
