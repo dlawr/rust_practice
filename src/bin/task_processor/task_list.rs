@@ -1,5 +1,5 @@
 use std::fmt::Debug;
-use std::ops::{Deref, DerefMut, Index};
+use std::ops::{Deref, DerefMut, Index, IndexMut};
 
 use crate::task_processor::task::Summary;
 
@@ -124,6 +124,12 @@ impl<T> Index<usize> for TaskList<T> {
 
     fn index(&self, index: usize) -> &Self::Output {
         &self.items[index]
+    }
+}
+
+impl<T> IndexMut<usize> for TaskList<T> {
+    fn index_mut(&mut self, index: usize) -> &mut Self::Output {
+        &mut self.deref_mut()[index]
     }
 }
 
