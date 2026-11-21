@@ -1,16 +1,16 @@
 use crate::task_processor::status::Status;
 use crate::task_processor::task::Task;
 
-pub(crate) fn parse_task(input: &str) -> Result<Task, String> {
+pub(crate) fn parse_task(input: &str) -> Result<Task, ParseTaskError> {
     if let Some((str_id, desc)) = input.split_once(":") {
         if desc.len() == 0 {
-            return Err("Error: missing description".to_string());
+            return Err(ParseTaskError::EmptyDescription);
         }
         let parsed_id = str_id
             .parse::<u32>()
-            .map_err(|e| format!("Invalid ID: {}", e))?;
+            .map_err(|_e| ParseTaskError::InvalidId)?;
         if parsed_id <= 0 {
-            return Err("Error: invalid id".to_string());
+            return Err(ParseTaskError::ZeroId);
         }
         Ok(Task {
             id: parsed_id,
@@ -18,11 +18,11 @@ pub(crate) fn parse_task(input: &str) -> Result<Task, String> {
             status: Status::Pending,
         })
     } else {
-        Err("Error: missing data".to_string())
+        Err(ParseTaskError::MissingSeparator)
     }
 }
 
-pub(crate) fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<String>) {
+pub(crate) fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<ParseTaskError>) {
     let mut parsed = Vec::new();
     let mut errors = Vec::new();
     for task in tasks {
@@ -32,4 +32,12 @@ pub(crate) fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<String>) {
         }
     }
     (parsed, errors)
+}
+
+#[derive(Debug, PartialEq)]
+pub(crate) enum ParseTaskError {
+    MissingSeparator,
+    InvalidId,
+    ZeroId,
+    EmptyDescription,
 }

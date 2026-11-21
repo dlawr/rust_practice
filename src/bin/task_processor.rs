@@ -1,7 +1,7 @@
 #[path = "task_processor/mod.rs"]
 mod task_processor;
 
-use crate::task_processor::parsing::{parse_task, parse_tasks};
+use crate::task_processor::parsing::{ParseTaskError, parse_task, parse_tasks};
 use crate::task_processor::status::Status;
 use crate::task_processor::task::{Summary, Task};
 use crate::task_processor::task_list::{TaskList, print_items};
@@ -34,7 +34,7 @@ fn filter_by_status<'a>(tasks: &'a [Task], status: &Status) -> Vec<&'a Task> {
     tasks.iter().filter(|task| task.status == *status).collect()
 }
 
-fn print_report(tasks: &[Task], errors: &[String]) {
+fn print_report(tasks: &[Task], errors: &[ParseTaskError]) {
     println!("{} valid tasks", tasks.len());
     for task in tasks {
         println!(
@@ -44,7 +44,7 @@ fn print_report(tasks: &[Task], errors: &[String]) {
     }
     println!("{} errors", errors.len());
     for error in errors {
-        println!("{}", error);
+        println!("{:?}", error);
     }
 }
 
@@ -76,7 +76,7 @@ fn main() {
             list.add(t);
             println!("{} {}", list.len(), list.is_empty())
         }
-        Err(e) => println!("{}", e),
+        Err(e) => println!("{:?}", e),
     }
 
     print_items(&parsed.0);
