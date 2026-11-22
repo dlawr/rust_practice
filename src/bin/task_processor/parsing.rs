@@ -1,5 +1,6 @@
 use crate::task_processor::status::Status;
 use crate::task_processor::task::Task;
+use std::fmt;
 
 pub(crate) fn parse_task(input: &str) -> Result<Task, ParseTaskError> {
     if let Some((str_id, desc)) = input.split_once(":") {
@@ -40,4 +41,15 @@ pub(crate) enum ParseTaskError {
     InvalidId,
     ZeroId,
     EmptyDescription,
+}
+
+impl fmt::Display for ParseTaskError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self {
+            ParseTaskError::EmptyDescription => write!(f, "Empty description"),
+            ParseTaskError::InvalidId => write!(f, "Invalid ID"),
+            ParseTaskError::MissingSeparator => write!(f, "Missing separator"),
+            ParseTaskError::ZeroId => write!(f, "Zero ID"),
+        }
+    }
 }

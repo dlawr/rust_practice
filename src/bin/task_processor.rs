@@ -44,7 +44,7 @@ fn print_report(tasks: &[Task], errors: &[ParseTaskError]) {
     }
     println!("{} errors", errors.len());
     for error in errors {
-        println!("{:?}", error);
+        println!("{}", error);
     }
 }
 
