@@ -53,3 +53,5 @@ impl fmt::Display for ParseTaskError {
         }
     }
 }
+
+impl std::error::Error for ParseTaskError {}
