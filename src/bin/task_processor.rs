@@ -110,12 +110,12 @@ mod tests {
         let result = parse_task("1:Buy groceries");
 
         assert_eq!(
-            result,
-            Ok(Task {
+            result.unwrap(),
+            Task {
                 id: 1,
                 description: "Buy groceries".to_string(),
                 status: Status::Pending,
-            })
+            }
         );
     }
 
@@ -124,12 +124,12 @@ mod tests {
         let result = parse_task("2:Meeting at 10:30");
 
         assert_eq!(
-            result,
-            Ok(Task {
+            result.unwrap(),
+            Task {
                 id: 2,
                 description: "Meeting at 10:30".to_string(),
                 status: Status::Pending,
-            })
+            }
         );
     }
 

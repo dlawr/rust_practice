@@ -33,12 +33,12 @@ pub(crate) fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<ParseTaskError>) {
     (parsed, errors)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug)]
 pub(crate) enum ParseTaskError {
     MissingSeparator,
     ZeroId,
     EmptyDescription,
-    InvalidIdFormat(String),
+    InvalidIdFormat(std::num::ParseIntError),
 }
 
 impl fmt::Display for ParseTaskError {
@@ -56,6 +56,6 @@ impl std::error::Error for ParseTaskError {}
 
 impl From<std::num::ParseIntError> for ParseTaskError {
     fn from(error: std::num::ParseIntError) -> Self {
-        Self::InvalidIdFormat(error.to_string())
+        Self::InvalidIdFormat(error)
     }
 }
