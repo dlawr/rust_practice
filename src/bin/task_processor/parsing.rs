@@ -7,9 +7,7 @@ pub(crate) fn parse_task(input: &str) -> Result<Task, ParseTaskError> {
         if desc.len() == 0 {
             return Err(ParseTaskError::EmptyDescription);
         }
-        let parsed_id = str_id
-            .parse::<u32>()
-            .map_err(|_e| ParseTaskError::InvalidId)?;
+        let parsed_id = str_id.parse::<u32>()?;
         if parsed_id <= 0 {
             return Err(ParseTaskError::ZeroId);
         }
@@ -38,20 +36,26 @@ pub(crate) fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<ParseTaskError>) {
 #[derive(Debug, PartialEq)]
 pub(crate) enum ParseTaskError {
     MissingSeparator,
-    InvalidId,
     ZeroId,
     EmptyDescription,
+    InvalidIdFormat(String),
 }
 
 impl fmt::Display for ParseTaskError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
             ParseTaskError::EmptyDescription => write!(f, "Empty description"),
-            ParseTaskError::InvalidId => write!(f, "Invalid ID"),
             ParseTaskError::MissingSeparator => write!(f, "Missing separator"),
             ParseTaskError::ZeroId => write!(f, "Zero ID"),
+            ParseTaskError::InvalidIdFormat(message) => write!(f, "Invalid ID: {}", message),
         }
     }
 }
 
 impl std::error::Error for ParseTaskError {}
+
+impl From<std::num::ParseIntError> for ParseTaskError {
+    fn from(error: std::num::ParseIntError) -> Self {
+        Self::InvalidIdFormat(error.to_string())
+    }
+}
