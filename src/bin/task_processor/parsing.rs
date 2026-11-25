@@ -52,10 +52,17 @@ impl fmt::Display for ParseTaskError {
     }
 }
 
-impl std::error::Error for ParseTaskError {}
-
 impl From<std::num::ParseIntError> for ParseTaskError {
     fn from(error: std::num::ParseIntError) -> Self {
         Self::InvalidIdFormat(error)
+    }
+}
+
+impl std::error::Error for ParseTaskError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            ParseTaskError::InvalidIdFormat(err) => Some(err),
+            _ => None,
+        }
     }
 }

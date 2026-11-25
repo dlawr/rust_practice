@@ -1,6 +1,8 @@
 #[path = "task_processor/mod.rs"]
 mod task_processor;
 
+use std::error::Error;
+
 use crate::task_processor::parsing::{ParseTaskError, parse_task, parse_tasks};
 use crate::task_processor::status::Status;
 use crate::task_processor::task::{Summary, Task};
@@ -98,6 +100,16 @@ fn main() {
     }
     for task in list {
         println!("{}", task.description);
+    }
+    println!("{:?}", parse_task("abc:Buy groceries"));
+    let result = parse_task("abc:Buy groceries");
+
+    if let Err(error) = result {
+        println!("Error: {}", error);
+
+        if let Some(source) = error.source() {
+            println!("Caused by: {}", source);
+        }
     }
 }
 
