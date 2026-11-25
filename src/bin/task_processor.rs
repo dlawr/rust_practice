@@ -3,7 +3,7 @@ mod task_processor;
 
 use std::error::Error;
 
-use crate::task_processor::parsing::{ParseTaskError, parse_task, parse_tasks};
+use crate::task_processor::parsing::{ParseTaskError, parse_all_tasks, parse_task, parse_tasks};
 use crate::task_processor::status::Status;
 use crate::task_processor::task::{Summary, Task};
 use crate::task_processor::task_list::{TaskList, print_items};
@@ -111,6 +111,8 @@ fn main() {
             println!("Caused by: {}", source);
         }
     }
+    println!("line 114");
+    println!("{:?}", parse_all_tasks(&tasks));
 }
 
 #[cfg(test)]

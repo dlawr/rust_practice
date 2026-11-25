@@ -33,6 +33,18 @@ pub(crate) fn parse_tasks(tasks: &[&str]) -> (Vec<Task>, Vec<ParseTaskError>) {
     (parsed, errors)
 }
 
+pub(crate) fn parse_all_tasks(inputs: &[&str]) -> Result<Vec<Task>, ParseTaskError> {
+    let mut parsed = Vec::new();
+    for input in inputs {
+        // match parse_task(input) {
+        //     Ok(parsed_task) => parsed.push(parsed_task),
+        //     Err(error) => return Err(error),
+        // }
+        parsed.push(parse_task(input)?);
+    }
+    Ok(parsed)
+}
+
 #[derive(Debug)]
 pub(crate) enum ParseTaskError {
     MissingSeparator,
