@@ -54,10 +54,11 @@ pub(crate) fn parse_and_find_task(
     id: u32,
 ) -> Result<Option<Task>, ParseTaskError> {
     let tasks = parse_all_tasks(inputs)?;
-    match find_task(&tasks, id) {
-        Some(task) => Ok(Some(task.clone())),
-        _ => Ok(None),
-    }
+    // match find_task(&tasks, id) {
+    //     Some(task) => Ok(Some(task.clone())),
+    //     _ => Ok(None),
+    // }
+    Ok(find_task(&tasks, id).cloned())
 }
 
 #[derive(Debug)]
