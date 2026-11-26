@@ -45,6 +45,21 @@ pub(crate) fn parse_all_tasks(inputs: &[&str]) -> Result<Vec<Task>, ParseTaskErr
     Ok(parsed)
 }
 
+pub(crate) fn find_task(tasks: &[Task], id: u32) -> Option<&Task> {
+    tasks.iter().find(|task| task.id == id)
+}
+
+pub(crate) fn parse_and_find_task(
+    inputs: &[&str],
+    id: u32,
+) -> Result<Option<Task>, ParseTaskError> {
+    let tasks = parse_all_tasks(inputs)?;
+    match find_task(&tasks, id) {
+        Some(task) => Ok(Some(task.clone())),
+        _ => Ok(None),
+    }
+}
+
 #[derive(Debug)]
 pub(crate) enum ParseTaskError {
     MissingSeparator,

@@ -3,14 +3,12 @@ mod task_processor;
 
 use std::error::Error;
 
-use crate::task_processor::parsing::{ParseTaskError, parse_all_tasks, parse_task, parse_tasks};
+use crate::task_processor::parsing::{
+    ParseTaskError, find_task, parse_all_tasks, parse_and_find_task, parse_task, parse_tasks,
+};
 use crate::task_processor::status::Status;
 use crate::task_processor::task::{Summary, Task};
 use crate::task_processor::task_list::{TaskList, print_items};
-
-fn find_task(tasks: &[Task], id: u32) -> Option<&Task> {
-    tasks.iter().find(|task| task.id == id)
-}
 
 fn complete_task(task: &mut Task) {
     task.status = Status::Complete
@@ -55,6 +53,13 @@ fn main() {
         "1:Buy groceries",
         "2:Finish Rust exercise",
         "invalid task",
+        "3:Read a book",
+        "4:Review http://example.com",
+        "5:Meeting at 10:30",
+    ];
+    let valid_tasks = vec![
+        "1:Buy groceries",
+        "2:Finish Rust exercise",
         "3:Read a book",
         "4:Review http://example.com",
         "5:Meeting at 10:30",
@@ -113,6 +118,7 @@ fn main() {
     }
     println!("line 114");
     println!("{:?}", parse_all_tasks(&tasks));
+    println!("{:?}", parse_and_find_task(&valid_tasks, 2));
 }
 
 #[cfg(test)]
