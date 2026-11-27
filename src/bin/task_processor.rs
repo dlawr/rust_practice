@@ -119,6 +119,7 @@ fn main() {
     println!("line 114");
     println!("{:?}", parse_all_tasks(&tasks));
     println!("{:?}", parse_and_find_task(&valid_tasks, 2));
+    println!("{:?}", "1:Buy groceries".parse::<Task>());
 }
 
 #[cfg(test)]
